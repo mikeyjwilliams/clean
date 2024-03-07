@@ -1,5 +1,5 @@
 import enum
-
+import sys
 
 class Lexer:
     def __init__(self, source) -> None:
@@ -29,7 +29,10 @@ class Lexer:
     # Skip whitespace except  for newlines, which we will indicate the end
     #   end of a statement.
     def skip_whitespace(self):
-        pass
+        while self.cur_char == ' ' or  \
+            self.cur_char == '\t' or  \
+                self.cur_char == '\r':
+            self.next_char()
     
     # Skip comments in code.
     def skip_comment(self):
@@ -37,6 +40,7 @@ class Lexer:
     
     # Return the next token.
     def get_token(self):
+        self.skip_whitespace()
         token = None
         
         # Check the first character of this token to see if we can decide what it is.
@@ -55,10 +59,17 @@ class Lexer:
             token = Token(self.cur_char, Token_Type.EOF)
         else:
             # unknown token
-            pass
+            self.abort('Unknown token =>' + self.cur_char)
         
         self.next_char()
         return token
+    
+    def abort(self, message: str) -> None:
+        sys.exit('Lexing error.' + message)
+        
+        
+    
+    
         
 # Token contains the original text and the type of token.
 class Token:
