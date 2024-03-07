@@ -37,26 +37,28 @@ class Lexer:
     
     # Return the next token.
     def get_token(self):
+        token = None
+        
         # Check the first character of this token to see if we can decide what it is.
         # If it is a multiple character operator (e.g., !=), number, identifier, or keyword, then we will process the rest.
         if self.cur_char == '+':
-            pass # plus token
+            token = Token(self.cur_char, Token_Type.PLUS)
         elif self.cur_char == '-':
-            pass # minus token
+            token = Token(self.cur_char, Token_Type.MINUS)
         elif self.cur_char == '*':
-            pass # asterisk token
+            token = Token(self.cur_char, Token_Type.ASTERISK)
         elif self.cur_char == '/':
-            pass # divide token
+            token = Token(self.cur_char, Token_Type.SLASH)
         elif self.cur_char == '\n':
-            pass # newline token
+            token = Token(self.cur_char, Token_Type.NEWLINE)
         elif self.cur_char == '\0':
-            pass # EOF token
+            token = Token(self.cur_char, Token_Type.EOF)
         else:
             # unknown token
             pass
         
         self.next_char()
-        
+        return token
         
 # Token contains the original text and the type of token.
 class Token:
